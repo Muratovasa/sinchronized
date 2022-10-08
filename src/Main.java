@@ -11,49 +11,33 @@ public class Main {
     for(int i=0;i<countBayer;i++){
         new MyTread().start();
     }
-        new Thread(() -> {
-            for(int i = 0; i<=countBayer; i++) {
-                synchronized (carSale) {
-                    autoSalon.comeIn();
-                    if (carSale.isEmpty()) {
-                        System.out.println("машин нет");
-                        try {
-                            carSale.wait();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    autoSalon.buyCars();
-                    carSale.remove(0);
-                }
-            }
-        }).start();
+
         new Thread(()->{
-            for (int i=0;i<countCars;i++){
-                Cars cars=new Cars("mersedes");
-                synchronized (carSale){
+            for (int i=0;i<countCars;i++) {
+                Cars cars = new Cars("mersedes");
+                synchronized (carSale) {
                     carSale.add(cars.getCar());
                     carSale.notify();
-                }
-                try {
+                    try {
                         Thread.sleep(timeSleep);
                     } catch (InterruptedException e) {
                         return;
                     }
                 }
-            }).start();
+            }
+        }).start();
 
         new Thread(()->{
-            for (int i=0;i<countCars;i++){
-                Cars cars=new Cars("bmv");
-                synchronized (carSale){
+            for (int i=0;i<countCars;i++) {
+                Cars cars = new Cars("bmv");
+                synchronized (carSale) {
                     carSale.add(cars.getCar());
                     carSale.notify();
-                }
-                try {
-                    Thread.sleep(timeSleep);
-                } catch (InterruptedException e) {
-                    return;
+                    try {
+                        Thread.sleep(timeSleep);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
                 }
             }
         }).start();

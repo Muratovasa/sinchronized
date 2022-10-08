@@ -13,7 +13,7 @@ public class Cars {
     }
 
     public int getCar(){
-        System.out.printf("производитель %s выпустил 1 авто", Cars.name);
+        System.out.printf("производитель %s выпустил 1 авто\n", Cars.name,"\n");
         return countCar++;
     }
 }
